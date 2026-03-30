@@ -8,7 +8,7 @@ namespace ProtocolCraft
     class ClientboundOpenSignEditorPacket : public BasePacket<ClientboundOpenSignEditorPacket>
     {
     public:
-        static constexpr std::string_view packet_name = "Open Signe Editor";
+        static constexpr std::string_view packet_name = "Open Sign Editor";
 
         SERIALIZED_FIELD(Pos, NetworkPosition);
 #if PROTOCOL_VERSION > 762 /* > 1.19.4 */
