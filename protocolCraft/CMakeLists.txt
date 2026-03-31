@@ -84,6 +84,7 @@ set(protocolCraft_PUBLIC_HDR
     include/protocolCraft/Packets/Game/Clientbound/ClientboundExplodePacket.hpp
     include/protocolCraft/Packets/Game/Clientbound/ClientboundForgetLevelChunkPacket.hpp
     include/protocolCraft/Packets/Game/Clientbound/ClientboundGameEventPacket.hpp
+    include/protocolCraft/Packets/Game/Clientbound/ClientboundGameRuleValuesPacket.hpp
     include/protocolCraft/Packets/Game/Clientbound/ClientboundGameTestHighlightPosPacket.hpp
     include/protocolCraft/Packets/Game/Clientbound/ClientboundHorseScreenOpenPacket.hpp
     include/protocolCraft/Packets/Game/Clientbound/ClientboundHurtAnimationPacket.hpp
@@ -95,6 +96,7 @@ set(protocolCraft_PUBLIC_HDR
     include/protocolCraft/Packets/Game/Clientbound/ClientboundLevelParticlesPacket.hpp
     include/protocolCraft/Packets/Game/Clientbound/ClientboundLightUpdatePacket.hpp
     include/protocolCraft/Packets/Game/Clientbound/ClientboundLoginPacket.hpp
+    include/protocolCraft/Packets/Game/Clientbound/ClientboundLowDiskSpaceWarningPacket.hpp
     include/protocolCraft/Packets/Game/Clientbound/ClientboundMapItemDataPacket.hpp
     include/protocolCraft/Packets/Game/Clientbound/ClientboundMerchantOffersPacket.hpp
     include/protocolCraft/Packets/Game/Clientbound/ClientboundMountScreenOpenPacket.hpp
@@ -199,6 +201,7 @@ set(protocolCraft_PUBLIC_HDR
     include/protocolCraft/Packets/Game/Clientbound/ClientboundUseBedPacket.hpp
 
     include/protocolCraft/Packets/Game/Serverbound/ServerboundAcceptTeleportationPacket.hpp
+    include/protocolCraft/Packets/Game/Serverbound/ServerboundAttackPacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundBlockEntityTagQueryPacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundChangeDifficultyPacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundChangeGameModePacket.hpp
@@ -262,10 +265,12 @@ set(protocolCraft_PUBLIC_HDR
     include/protocolCraft/Packets/Game/Serverbound/ServerboundSetCommandBlockPacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundSetCommandMinecartPacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundSetCreativeModeSlotPacket.hpp
+    include/protocolCraft/Packets/Game/Serverbound/ServerboundSetGameRulePacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundSetJigsawBlockPacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundSetStructureBlockPacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundSetTestBlockPacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundSignUpdatePacket.hpp
+    include/protocolCraft/Packets/Game/Serverbound/ServerboundSpectateEntityPacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundSwingPacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundTeleportToEntityPacket.hpp
     include/protocolCraft/Packets/Game/Serverbound/ServerboundTestInstanceBlockActionPacket.hpp
@@ -324,6 +329,7 @@ set(protocolCraft_PUBLIC_HDR
     include/protocolCraft/Types/ClientboundLevelChunkPacketData.hpp
     include/protocolCraft/Types/ClientboundLightUpdatePacketData.hpp
     include/protocolCraft/Types/ClientInformation.hpp
+    include/protocolCraft/Types/ClockNetworkState.hpp
     include/protocolCraft/Types/CommonPlayerSpawnInfo.hpp
     include/protocolCraft/Types/CriterionProgress.hpp
     include/protocolCraft/Types/Either.hpp
@@ -346,6 +352,7 @@ set(protocolCraft_PUBLIC_HDR
     include/protocolCraft/Types/Record.hpp
     include/protocolCraft/Types/SaltSignature.hpp
     include/protocolCraft/Types/ServerLinksUnstrustedEntry.hpp
+    include/protocolCraft/Types/SetGameRuleEntry.hpp
     include/protocolCraft/Types/TestInstanceBlockEntityData.hpp
 
     include/protocolCraft/Types/Chat/Chat.hpp
@@ -417,6 +424,7 @@ set(protocolCraft_PUBLIC_HDR
     include/protocolCraft/Types/Components/DataComponentTypeConsumable.hpp
     include/protocolCraft/Types/Components/DataComponentTypeCustomData.hpp
     include/protocolCraft/Types/Components/DataComponentTypeCustomModelData.hpp
+    include/protocolCraft/Types/Components/DataComponentTypeDamageResistant.hpp
     include/protocolCraft/Types/Components/DataComponentTypeDeathProtection.hpp
     include/protocolCraft/Types/Components/DataComponentTypeDefault.hpp
     include/protocolCraft/Types/Components/DataComponentTypeDyeColor.hpp
@@ -445,6 +453,7 @@ set(protocolCraft_PUBLIC_HDR
     include/protocolCraft/Types/Components/DataComponentTypePaintingVariant.hpp
     include/protocolCraft/Types/Components/DataComponentTypePiercingWeapon.hpp
     include/protocolCraft/Types/Components/DataComponentTypePotionContents.hpp
+    include/protocolCraft/Types/Components/DataComponentTypeProvidesBannerPattern.hpp
     include/protocolCraft/Types/Components/DataComponentTypeProvidesTrimMaterial.hpp
     include/protocolCraft/Types/Components/DataComponentTypeRarity.hpp
     include/protocolCraft/Types/Components/DataComponentTypeRepairable.hpp
@@ -537,10 +546,12 @@ set(protocolCraft_PUBLIC_HDR
     include/protocolCraft/Types/Particles/VibrationParticleOption.hpp
 
     include/protocolCraft/Types/Recipes/CompositeSlotDisplay.hpp
+    include/protocolCraft/Types/Recipes/DyedSlotDemoDisplayData.hpp
     include/protocolCraft/Types/Recipes/FurnaceRecipeDisplay.hpp
     include/protocolCraft/Types/Recipes/Ingredient.hpp
     include/protocolCraft/Types/Recipes/ItemSlotDisplay.hpp
     include/protocolCraft/Types/Recipes/ItemStackSlotDisplay.hpp
+    include/protocolCraft/Types/Recipes/OnlyWithComponentSlotDisplay.hpp
     include/protocolCraft/Types/Recipes/Recipe.hpp
     include/protocolCraft/Types/Recipes/RecipeBookAddEntry.hpp
     include/protocolCraft/Types/Recipes/RecipeBookSettings.hpp
@@ -567,6 +578,7 @@ set(protocolCraft_PUBLIC_HDR
     include/protocolCraft/Types/Recipes/SmithingTrimDemoSlotDisplay.hpp
     include/protocolCraft/Types/Recipes/StonecutterRecipeDisplay.hpp
     include/protocolCraft/Types/Recipes/TagSlotDisplay.hpp
+    include/protocolCraft/Types/Recipes/WithAnyPotionSlotDisplay.hpp
     include/protocolCraft/Types/Recipes/WithRemainderSlotDisplay.hpp
 
     include/protocolCraft/Types/Sound/SoundEvent.hpp

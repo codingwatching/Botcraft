@@ -49,6 +49,7 @@
 #endif
 #if PROTOCOL_VERSION > 767 /* > 1.21.1 */
 #include "protocolCraft/Types/Components/DataComponentTypeConsumable.hpp"
+#include "protocolCraft/Types/Components/DataComponentTypeDamageResistant.hpp"
 #include "protocolCraft/Types/Components/DataComponentTypeDeathProtection.hpp"
 #include "protocolCraft/Types/Components/DataComponentTypeEquippable.hpp"
 #include "protocolCraft/Types/Components/DataComponentTypeRepairable.hpp"
@@ -61,6 +62,7 @@
 #include "protocolCraft/Types/Components/DataComponentTypeEitherRegistryVarint.hpp"
 #include "protocolCraft/Types/Components/DataComponentTypeFloat.hpp"
 #include "protocolCraft/Types/Components/DataComponentTypePaintingVariant.hpp"
+#include "protocolCraft/Types/Components/DataComponentTypeProvidesBannerPattern.hpp"
 #include "protocolCraft/Types/Components/DataComponentTypeProvidesTrimMaterial.hpp"
 #include "protocolCraft/Types/Components/DataComponentTypeTooltipDisplay.hpp"
 #include "protocolCraft/Types/Components/DataComponentTypeVariantEnum.hpp"
@@ -174,6 +176,7 @@ namespace ProtocolCraft
 #endif
 #if PROTOCOL_VERSION > 767 /* > 1.21.1 */
         DEFINE_NETWORK_TYPE(DataComponentTypeConsumable);
+        DEFINE_NETWORK_TYPE(DataComponentTypeDamageResistant);
         DEFINE_NETWORK_TYPE(DataComponentTypeDeathProtection);
         DEFINE_NETWORK_TYPE(DataComponentTypeEquippable);
         DEFINE_NETWORK_TYPE(DataComponentTypeRepairable);
@@ -186,6 +189,7 @@ namespace ProtocolCraft
         DEFINE_NETWORK_TYPE(DataComponentTypeEitherRegistryVarint);
         DEFINE_NETWORK_TYPE(DataComponentTypeFloat);
         DEFINE_NETWORK_TYPE(DataComponentTypePaintingVariant);
+        DEFINE_NETWORK_TYPE(DataComponentTypeProvidesBannerPattern);
         DEFINE_NETWORK_TYPE(DataComponentTypeProvidesTrimMaterial);
         DEFINE_NETWORK_TYPE(DataComponentTypeTooltipDisplay);
         DEFINE_NETWORK_TYPE(DataComponentTypeVariantEnum);
@@ -274,7 +278,13 @@ namespace ProtocolCraft
                 "kinetic_weapon",
                 "swing_animation",
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+                "additional_trade_cost",
+#endif
                 "stored_enchantments",
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+                "dye",
+#endif
                 "dyed_color",
                 "map_color",
                 "map_id",
@@ -334,8 +344,17 @@ namespace ProtocolCraft
                 "mooshroom/variant",
                 "rabbit/variant",
                 "pig/variant",
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+                "pig/sound_variant",
+#endif
                 "cow/variant",
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+                "cow/sound_variant",
+#endif
                 "chicken/variant",
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+                "chicken/sound_variant",
+#endif
 #if PROTOCOL_VERSION > 773 /* > 1.21.10 */
                 "zombie_nautilus/variant",
 #endif
@@ -345,6 +364,9 @@ namespace ProtocolCraft
                 "llama/variant",
                 "axolotl/variant",
                 "cat/variant",
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+                "cat/sound_variant",
+#endif
                 "cat/collar",
                 "sheep/color",
                 "shulker/color",
@@ -459,6 +481,7 @@ namespace ProtocolCraft
             case DataComponentTypes::NoteBlockSound:
 #if PROTOCOL_VERSION > 767 /* > 1.21.1 */
             case DataComponentTypes::DamageResistant:
+                return std::make_shared<DataComponentTypeDamageResistant>();
             case DataComponentTypes::ItemModel:
             case DataComponentTypes::TooltipStyle:
 #endif
@@ -514,14 +537,18 @@ namespace ProtocolCraft
                 return std::make_shared<DataComponentTypePaintingVariant>();
             case DataComponentTypes::PotionDurationScale:
                 return std::make_shared<DataComponentTypeFloat>();
+            case DataComponentTypes::ProvidesBannerPatterns:
+                return std::make_shared<DataComponentTypeProvidesBannerPattern>();
             case DataComponentTypes::ProvidesTrimMaterial:
                 return std::make_shared<DataComponentTypeProvidesTrimMaterial>();
             case DataComponentTypes::TooltipDisplay:
                 return std::make_shared<DataComponentTypeTooltipDisplay>();
             case DataComponentTypes::Weapon:
                 return std::make_shared<DataComponentTypeWeapon>();
+#if PROTOCOL_VERSION < 775 /* < 1.21.11 */
             case DataComponentTypes::Chicken_Variant:
                 return std::make_shared<DataComponentTypeEitherRegistryVarint>();
+#endif
             case DataComponentTypes::Axolotl_Variant:
             case DataComponentTypes::Cat_Variant:
             case DataComponentTypes::Cow_Variant:
@@ -558,15 +585,31 @@ namespace ProtocolCraft
                 return std::make_shared<DataComponentTypeFloat>();
             case DataComponentTypes::AttackRange:
                 return std::make_shared<DataComponentTypeAttackRange>();
+#if PROTOCOL_VERSION < 775 /* < 1.21.11 */
             case DataComponentTypes::DamageType:
             case DataComponentTypes::ZombieNautilus_Variant:
                 return std::make_shared<DataComponentTypeEitherRegistryVarint>();
+#endif
             case DataComponentTypes::PiercingWeapon:
                 return std::make_shared<DataComponentTypePiercingWeapon>();
             case DataComponentTypes::KineticWeapon:
                 return std::make_shared<DataComponentTypeKineticWeapon>();
             case DataComponentTypes::SwingAnimation:
                 return std::make_shared<DataComponentTypeSwingAnimation>();
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            case DataComponentTypes::Dye:
+                return std::make_shared<DataComponentTypeDyeColor>();
+            case DataComponentTypes::Chicken_Variant:
+            case DataComponentTypes::DamageType:
+            case DataComponentTypes::ZombieNautilus_Variant:
+            case DataComponentTypes::Cat_SoundVariant:
+            case DataComponentTypes::Chicken_SoundVariant:
+            case DataComponentTypes::Cow_SoundVariant:
+            case DataComponentTypes::Pig_SoundVariant:
+                return std::make_shared<DataComponentTypeVariantEnum>();
+            case DataComponentTypes::AdditionalTradeCost:
+                return std::make_shared<DataComponentTypeInteger>();
 #endif
             default:
                 // Should never happen but will make the compilers happy

@@ -47,6 +47,9 @@
 
 // Play
 #include "protocolCraft/Packets/Game/Serverbound/ServerboundAcceptTeleportationPacket.hpp"
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+#include "protocolCraft/Packets/Game/Serverbound/ServerboundAttackPacket.hpp"
+#endif
 #if PROTOCOL_VERSION > 340 /* > 1.12.2 */
 #include "protocolCraft/Packets/Game/Serverbound/ServerboundBlockEntityTagQueryPacket.hpp"
 #endif
@@ -182,6 +185,9 @@
 #include "protocolCraft/Packets/Game/Serverbound/ServerboundSetCommandMinecartPacket.hpp"
 #endif
 #include "protocolCraft/Packets/Game/Serverbound/ServerboundSetCreativeModeSlotPacket.hpp"
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+#include "protocolCraft/Packets/Game/Serverbound/ServerboundSetGameRulePacket.hpp"
+#endif
 #if PROTOCOL_VERSION > 404 /* > 1.13.2 */
 #include "protocolCraft/Packets/Game/Serverbound/ServerboundSetJigsawBlockPacket.hpp"
 #endif
@@ -192,6 +198,9 @@
 #include "protocolCraft/Packets/Game/Serverbound/ServerboundSetTestBlockPacket.hpp"
 #endif
 #include "protocolCraft/Packets/Game/Serverbound/ServerboundSignUpdatePacket.hpp"
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+#include "protocolCraft/Packets/Game/Serverbound/ServerboundSpectateEntityPacket.hpp"
+#endif
 #include "protocolCraft/Packets/Game/Serverbound/ServerboundSwingPacket.hpp"
 #include "protocolCraft/Packets/Game/Serverbound/ServerboundTeleportToEntityPacket.hpp"
 #if PROTOCOL_VERSION > 769 /* > 1.21.4 */
@@ -257,6 +266,9 @@ namespace ProtocolCraft
 
     using AllServerboundPlayPackets = std::tuple<
         ServerboundAcceptTeleportationPacket,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        ServerboundAttackPacket,
+#endif
 #if PROTOCOL_VERSION > 340 /* > 1.12.2 */
         ServerboundBlockEntityTagQueryPacket,
 #endif
@@ -398,6 +410,9 @@ namespace ProtocolCraft
         ServerboundSetCommandMinecartPacket,
 #endif
         ServerboundSetCreativeModeSlotPacket,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        ServerboundSetGameRulePacket,
+#endif
 #if PROTOCOL_VERSION > 404 /* > 1.13.2 */
         ServerboundSetJigsawBlockPacket,
 #endif
@@ -408,6 +423,9 @@ namespace ProtocolCraft
         ServerboundSetTestBlockPacket,
 #endif
         ServerboundSignUpdatePacket,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        ServerboundSpectateEntityPacket,
+#endif
         ServerboundSwingPacket,
         ServerboundTeleportToEntityPacket,
 #if PROTOCOL_VERSION > 769 /* > 1.21.4 */

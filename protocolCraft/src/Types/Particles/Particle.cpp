@@ -90,41 +90,41 @@ namespace ProtocolCraft
     {
 #if PROTOCOL_VERSION > 392 /* > 1.12.2 */
         static constexpr std::array<std::string_view, static_cast<size_t>(ParticleType::NUM_PARTICLE_TYPES)> names = {
-    #if PROTOCOL_VERSION < 766 /* < 1.20.5 */
+#if PROTOCOL_VERSION < 766 /* < 1.20.5 */
             "ambient_entity_effect",
-    #endif
+#endif
             "angry_villager",
-    #if PROTOCOL_VERSION < 757 /* < 1.18 */
+#if PROTOCOL_VERSION < 757 /* < 1.18 */
             "barrier",
-    #endif
-    #if PROTOCOL_VERSION > 754 /* > 1.16.5 */ && PROTOCOL_VERSION < 757 /* < 1.18 */
+#endif
+#if PROTOCOL_VERSION > 754 /* > 1.16.5 */ && PROTOCOL_VERSION < 757 /* < 1.18 */
             "light",
-    #endif
+#endif
             "block",
-    #if PROTOCOL_VERSION > 756 /* > 1.17.1 */
+#if PROTOCOL_VERSION > 756 /* > 1.17.1 */
             "block_marker",
-    #endif
+#endif
             "bubble",
             "cloud",
-    #if PROTOCOL_VERSION > 772 /* > 1.21.8 */
+#if PROTOCOL_VERSION > 772 /* > 1.21.8 */
             "copper_fire_flame",
-    #endif
+#endif
             "crit",
             "damage_indicator",
             "dragon_breath",
             "dripping_lava",
-    #if PROTOCOL_VERSION > 476 /* > 1.13.2 */
+#if PROTOCOL_VERSION > 476 /* > 1.13.2 */
             "falling_lava",
             "landing_lava",
-    #endif
+#endif
             "dripping_water",
-    #if PROTOCOL_VERSION > 476 /* > 1.13.2 */
+#if PROTOCOL_VERSION > 476 /* > 1.13.2 */
             "falling_water",
-    #endif
+#endif
             "dust",
-    #if PROTOCOL_VERSION > 754 /* > 1.16.5 */
+#if PROTOCOL_VERSION > 754 /* > 1.16.5 */
             "dust_color_transition",
-    #endif
+#endif
             "effect",
             "elder_guardian",
             "enchanted_hit",
@@ -133,70 +133,74 @@ namespace ProtocolCraft
             "entity_effect",
             "explosion_emitter",
             "explosion",
-    #if PROTOCOL_VERSION > 764 /* > 1.20.2 */
+#if PROTOCOL_VERSION > 764 /* > 1.20.2 */
             "gust",
-    #if PROTOCOL_VERSION < 766 /* < 1.20.5 */
+#if PROTOCOL_VERSION < 766 /* < 1.20.5 */
             "gust_emitter",
-    #endif
-    #endif
-    #if PROTOCOL_VERSION > 765 /* > 1.20.4 */
+#endif
+#endif
+#if PROTOCOL_VERSION > 765 /* > 1.20.4 */
             "small_gust",
             "gust_emitter_large",
             "gust_emitter_small",
-    #endif
-    #if PROTOCOL_VERSION > 758 /* > 1.18.2 */
+#endif
+#if PROTOCOL_VERSION > 758 /* > 1.18.2 */
             "sonic_boom",
-    #endif
+#endif
             "falling_dust",
             "firework",
             "fishing",
             "flame",
-    #if PROTOCOL_VERSION > 761 /* > 1.19.3 */ && PROTOCOL_VERSION < 763 /* < 1.20 */
+#if PROTOCOL_VERSION > 761 /* > 1.19.3 */ && PROTOCOL_VERSION < 763 /* < 1.20 */
             "dripping_cherry_leaves",
             "falling_cherry_leaves",
             "landing_cherry_leaves",
-    #endif
-    #if PROTOCOL_VERSION > 765 /* > 1.20.4 */
+#endif
+#if PROTOCOL_VERSION > 765 /* > 1.20.4 */
             "infested",
-    #endif
-    #if PROTOCOL_VERSION > 762 /* > 1.19.4 */
+#endif
+#if PROTOCOL_VERSION > 762 /* > 1.19.4 */
             "cherry_leaves",
-    #endif
-    #if PROTOCOL_VERSION > 768 /* > 1.21.3 */
+#endif
+#if PROTOCOL_VERSION > 768 /* > 1.21.3 */
             "pale_oak_leaves",
-    #endif
+#endif
 #if PROTOCOL_VERSION > 769 /* > 1.21.4 */
             "tinted_leaves",
 #endif
-    #if PROTOCOL_VERSION > 758 /* > 1.18.2 */
+#if PROTOCOL_VERSION > 758 /* > 1.18.2 */
             "sculk_soul",
             "sculk_charge",
             "sculk_charge_pop",
-    #endif
-    #if PROTOCOL_VERSION > 734 /* > 1.15.2 */
+#endif
+#if PROTOCOL_VERSION > 734 /* > 1.15.2 */
             "soul_fire_flame",
             "soul",
-    #endif
-    #if PROTOCOL_VERSION > 476 /* > 1.13.2 */
+#endif
+#if PROTOCOL_VERSION > 476 /* > 1.13.2 */
             "flash",
-    #endif
+#endif
             "happy_villager",
-    #if PROTOCOL_VERSION > 476 /* > 1.13.2 */
+#if PROTOCOL_VERSION > 476 /* > 1.13.2 */
             "composter",
-    #endif
+#endif
             "heart",
             "instant_effect",
             "item",
-    #if PROTOCOL_VERSION > 754 /* > 1.16.5 */
+#if PROTOCOL_VERSION > 754 /* > 1.16.5 */
             "vibration",
-    #endif
+#endif
 #if PROTOCOL_VERSION > 767 /* > 1.21.1 */
             "trail",
 #endif
+#if PROTOCOL_VERSION > 775 /* > 1.21.11 */
+            "pause_mob_growth",
+            "reset_mob_growth",
+#endif
             "item_slime",
-    #if PROTOCOL_VERSION > 765 /* > 1.20.4 */
+#if PROTOCOL_VERSION > 765 /* > 1.20.4 */
             "item_cobweb",
-    #endif
+#endif
             "item_snowball",
             "large_smoke",
             "lava",
@@ -206,12 +210,12 @@ namespace ProtocolCraft
             "portal",
             "rain",
             "smoke",
-    #if PROTOCOL_VERSION > 764 /* > 1.20.2 */
+#if PROTOCOL_VERSION > 764 /* > 1.20.2 */
             "white_smoke",
-    #endif
-    #if PROTOCOL_VERSION > 476 /* > 1.13.2 */
+#endif
+#if PROTOCOL_VERSION > 476 /* > 1.13.2 */
             "sneeze",
-    #endif
+#endif
             "spit",
             "squid_ink",
             "sweep_attack",
@@ -224,35 +228,35 @@ namespace ProtocolCraft
             "bubble_column_up",
             "nautilus",
             "dolphin",
-    #if PROTOCOL_VERSION > 476 /* > 1.13.2 */
+#if PROTOCOL_VERSION > 476 /* > 1.13.2 */
             "campfire_cosy_smoke",
             "campfire_signal_smoke",
-    #endif
-    #if PROTOCOL_VERSION > 572 /* > 1.14.4 */
+#endif
+#if PROTOCOL_VERSION > 572 /* > 1.14.4 */
             "dripping_honey",
             "falling_honey",
             "landing_honey",
             "falling_nectar",
-    #endif
-    #if PROTOCOL_VERSION > 754 /* > 1.16.5 */
+#endif
+#if PROTOCOL_VERSION > 754 /* > 1.16.5 */
             "falling_spore_blossom",
-    #endif
-    #if PROTOCOL_VERSION > 734 /* > 1.15.2 */
+#endif
+#if PROTOCOL_VERSION > 734 /* > 1.15.2 */
             "ash",
             "crimson_spore",
             "warped_spore",
-    #endif
-    #if PROTOCOL_VERSION > 754 /* > 1.16.5 */
+#endif
+#if PROTOCOL_VERSION > 754 /* > 1.16.5 */
             "spore_blossom_air",
-    #endif
-    #if PROTOCOL_VERSION > 734 /* > 1.15.2 */
+#endif
+#if PROTOCOL_VERSION > 734 /* > 1.15.2 */
             "dripping_obsidian_tear",
             "falling_obsidian_tear",
             "landing_obsidian_tear",
             "reverse_portal",
             "white_ash",
-    #endif
-    #if PROTOCOL_VERSION > 754 /* > 1.16.5 */
+#endif
+#if PROTOCOL_VERSION > 754 /* > 1.16.5 */
             "small_flame",
             "snowflake",
             "dripping_dripstone_lava",
@@ -265,28 +269,28 @@ namespace ProtocolCraft
             "wax_off",
             "electric_spark",
             "scrape",
-    #endif
-    #if PROTOCOL_VERSION > 758 /* > 1.18.2 */
+#endif
+#if PROTOCOL_VERSION > 758 /* > 1.18.2 */
             "shriek",
-    #endif
-    #if PROTOCOL_VERSION > 762 /* > 1.19.4 */
+#endif
+#if PROTOCOL_VERSION > 762 /* > 1.19.4 */
             "egg_crack",
-    #endif
-    #if PROTOCOL_VERSION > 764 /* > 1.20.2 */
+#endif
+#if PROTOCOL_VERSION > 764 /* > 1.20.2 */
             "dust_plume",
-    #if PROTOCOL_VERSION < 766 /* < 1.20.5 */
+#if PROTOCOL_VERSION < 766 /* < 1.20.5 */
             "gust_dust",
-    #endif
+#endif
             "trial_spawner_detection",
-    #endif
-    #if PROTOCOL_VERSION > 765 /* > 1.20.4 */
+#endif
+#if PROTOCOL_VERSION > 765 /* > 1.20.4 */
             "trial_spawner_detection_ominous",
             "vault_connection",
             "dust_pillar",
             "ominous_spawning",
             "raid_omen",
             "trial_omen",
-    #endif
+#endif
 #if PROTOCOL_VERSION > 767 /* > 1.21.1 */
             "block_crumble",
 #endif

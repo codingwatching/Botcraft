@@ -30,7 +30,11 @@ namespace ProtocolCraft
 #if PROTOCOL_VERSION < 755 /* < 1.17 */
         SERIALIZED_FIELD(Uid, short);
 #endif
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
         SERIALIZED_FIELD(ClickType, VarInt);
+#else
+        SERIALIZED_FIELD(ContainerInput, VarInt);
+#endif
 #if PROTOCOL_VERSION < 770 /* < 1.21.5 */
 #if PROTOCOL_VERSION > 754 /* > 1.16.5 */
         SERIALIZED_FIELD(ChangedSlots, std::map<short, Slot>);

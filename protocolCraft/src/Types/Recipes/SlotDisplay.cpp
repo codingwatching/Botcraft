@@ -8,6 +8,11 @@
 #include "protocolCraft/Types/Recipes/SmithingTrimDemoSlotDisplay.hpp"
 #include "protocolCraft/Types/Recipes/TagSlotDisplay.hpp"
 #include "protocolCraft/Types/Recipes/WithRemainderSlotDisplay.hpp"
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+#include "protocolCraft/Types/Recipes/DyedSlotDemoDisplayData.hpp"
+#include "protocolCraft/Types/Recipes/OnlyWithComponentSlotDisplay.hpp"
+#include "protocolCraft/Types/Recipes/WithAnyPotionSlotDisplay.hpp"
+#endif
 
 #include "protocolCraft/Utilities/AutoSerializedToJson.hpp"
 
@@ -20,6 +25,12 @@ namespace ProtocolCraft
     DEFINE_NETWORK_TYPE(SmithingTrimDemoSlotDisplay);
     DEFINE_NETWORK_TYPE(TagSlotDisplay);
     DEFINE_NETWORK_TYPE(WithRemainderSlotDisplay);
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    DEFINE_NETWORK_TYPE(DyedSlotDemoDisplayData);
+    DEFINE_NETWORK_TYPE(OnlyWithComponentSlotDisplay);
+    DEFINE_NETWORK_TYPE(WithAnyPotionSlotDisplay);
+#endif
+
 
     SlotDisplay& SlotDisplay::SetType(const SlotDisplaysDataType type)
     {
@@ -53,6 +64,17 @@ namespace ProtocolCraft
         case SlotDisplaysDataType::Composite:
             Data = std::make_shared<CompositeSlotDisplay>();
             break;
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        case SlotDisplaysDataType::WithAnyPotion:
+            Data = std::make_shared<WithAnyPotionSlotDisplay>();
+            break;
+        case SlotDisplaysDataType::OnlyWithComponent:
+            Data = std::make_shared<OnlyWithComponentSlotDisplay>();
+            break;
+        case SlotDisplaysDataType::DyedSlotDemo:
+            Data = std::make_shared<DyedSlotDemoDisplayData>();
+            break;
+#endif
         default:
             // This should not happen
             throw std::runtime_error("Unable to create SlotDisplaysData with id: " + std::to_string(static_cast<int>(Type)) + ".");

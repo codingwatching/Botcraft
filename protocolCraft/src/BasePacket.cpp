@@ -390,6 +390,10 @@ namespace ProtocolCraft
     DEFINE_PACKET_CLASS(ClientboundDebugEventPacket);
     DEFINE_PACKET_CLASS(ClientboundGameTestHighlightPosPacket);
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    DEFINE_PACKET_CLASS(ClientboundGameRuleValuesPacket);
+    DEFINE_PACKET_CLASS(ClientboundLowDiskSpaceWarningPacket);
+#endif
 
 
     // Explicit instantiation for each serverbound packet class
@@ -572,5 +576,10 @@ namespace ProtocolCraft
 #if PROTOCOL_VERSION > 770 /* > 1.21.5 */
     DEFINE_PACKET_CLASS(ServerboundChangeGameModePacket);
     DEFINE_PACKET_CLASS(ServerboundCustomClickActionPacket);
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    DEFINE_PACKET_CLASS(ServerboundAttackPacket);
+    DEFINE_PACKET_CLASS(ServerboundSetGameRulePacket);
+    DEFINE_PACKET_CLASS(ServerboundSpectateEntityPacket);
 #endif
 }

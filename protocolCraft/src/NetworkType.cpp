@@ -66,6 +66,10 @@
 #include "protocolCraft/Types/LpVec3.hpp"
 #include "protocolCraft/Types/LevelDataRespawnData.hpp"
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+#include "protocolCraft/Types/ClockNetworkState.hpp"
+#include "protocolCraft/Types/SetGameRuleEntry.hpp"
+#endif
 
 // Chat
 #if PROTOCOL_VERSION > 759 /* > 1.19 */ && PROTOCOL_VERSION < 761 /* < 1.19.3 */
@@ -203,6 +207,10 @@ namespace ProtocolCraft
 #if PROTOCOL_VERSION > 772 /* > 1.21.8 */
     DEFINE_SERIALIZE(LpVec3);
     DEFINE_NETWORK_TYPE(LevelDataRespawnData);
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    DEFINE_NETWORK_TYPE(ClockNetworkState);
+    DEFINE_NETWORK_TYPE(SetGameRuleEntry);
 #endif
 
     // Chat

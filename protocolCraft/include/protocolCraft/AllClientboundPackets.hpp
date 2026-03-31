@@ -175,6 +175,9 @@
 #include "protocolCraft/Packets/Game/Clientbound/ClientboundExplodePacket.hpp"
 #include "protocolCraft/Packets/Game/Clientbound/ClientboundForgetLevelChunkPacket.hpp"
 #include "protocolCraft/Packets/Game/Clientbound/ClientboundGameEventPacket.hpp"
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+#include "protocolCraft/Packets/Game/Clientbound/ClientboundGameRuleValuesPacket.hpp"
+#endif
 #if PROTOCOL_VERSION > 772 /* > 1.21.8 */
 #include "protocolCraft/Packets/Game/Clientbound/ClientboundGameTestHighlightPosPacket.hpp"
 #endif
@@ -200,6 +203,9 @@
 #include "protocolCraft/Packets/Game/Clientbound/ClientboundLightUpdatePacket.hpp"
 #endif
 #include "protocolCraft/Packets/Game/Clientbound/ClientboundLoginPacket.hpp"
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+#include "protocolCraft/Packets/Game/Clientbound/ClientboundLowDiskSpaceWarningPacket.hpp"
+#endif
 #include "protocolCraft/Packets/Game/Clientbound/ClientboundMapItemDataPacket.hpp"
 #if PROTOCOL_VERSION > 404 /* > 1.13.2 */
 #include "protocolCraft/Packets/Game/Clientbound/ClientboundMerchantOffersPacket.hpp"
@@ -592,6 +598,9 @@ namespace ProtocolCraft
         ClientboundExplodePacket,
         ClientboundForgetLevelChunkPacket,
         ClientboundGameEventPacket,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        ClientboundGameRuleValuesPacket,
+#endif
 #if PROTOCOL_VERSION > 772 /* > 1.21.8 */
         ClientboundGameTestHighlightPosPacket,
 #endif
@@ -621,6 +630,9 @@ namespace ProtocolCraft
         ClientboundLightUpdatePacket,
 #endif
         ClientboundLoginPacket,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        ClientboundLowDiskSpaceWarningPacket,
+#endif
         ClientboundMapItemDataPacket,
 #if PROTOCOL_VERSION > 404 /* > 1.13.2 */
         ClientboundMerchantOffersPacket,

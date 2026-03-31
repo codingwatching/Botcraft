@@ -114,6 +114,10 @@ namespace ProtocolCraft
 #if PROTOCOL_VERSION > 767 /* > 1.21.1 */
         Trail,
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        PauseMobGrowth,
+        ResetMobGrowth,
+#endif
         ItemSlime,
 #if PROTOCOL_VERSION > 765 /* > 1.20.4 */
         ItemCobweb,

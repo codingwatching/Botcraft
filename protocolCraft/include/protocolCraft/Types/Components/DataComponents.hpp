@@ -81,7 +81,13 @@ namespace ProtocolCraft
             KineticWeapon,
             SwingAnimation,
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            AdditionalTradeCost,
+#endif
             StoredEnchantments,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            Dye,
+#endif
             DyedColor,
             MapColor,
             MapId,
@@ -141,8 +147,17 @@ namespace ProtocolCraft
             Mooshroom_Variant,
             Rabbit_Variant,
             Pig_Variant,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            Pig_SoundVariant,
+#endif
             Cow_Variant,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            Cow_SoundVariant,
+#endif
             Chicken_Variant,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            Chicken_SoundVariant,
+#endif
 #if PROTOCOL_VERSION > 773 /* > 1.21.10 */
             ZombieNautilus_Variant,
 #endif
@@ -152,6 +167,9 @@ namespace ProtocolCraft
             Llama_Variant,
             Axolotl_Variant,
             Cat_Variant,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            Cat_SoundVariant,
+#endif
             Cat_Collar,
             Sheep_Color,
             Shulker_Color,

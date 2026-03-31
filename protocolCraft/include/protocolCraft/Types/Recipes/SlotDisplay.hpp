@@ -12,9 +12,16 @@ namespace ProtocolCraft
         None = -1,
         Empty,
         AnyFuel,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        WithAnyPotion,
+        OnlyWithComponent,
+#endif
         Item,
         ItemStack,
         Tag,
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        DyedSlotDemo,
+#endif
         SmithingTrim,
         WithRemainder,
         Composite,
