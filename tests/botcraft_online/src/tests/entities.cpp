@@ -148,3 +148,60 @@ TEST_CASE("player names")
             return bot->GetPlayerName(bot2_entity->GetUUID()) == "";
         }, 5000));
 }
+
+TEST_CASE("Attacking")
+{
+    std::unique_ptr<Botcraft::ManagersClient> bot = SetupTestBot();
+    const Botcraft::Vector3<double> pos = Botcraft::Vector3<double>(1.5, 0, 1.5) + TestManager::GetInstance().GetCurrentOffset();
+
+    std::stringstream command;
+    command
+        << "summon cow "
+        << pos.x << " "
+        << pos.y << " "
+        << pos.z << " "
+        << "{NoAI:1b,PersistenceRequired:1b}";
+    MinecraftServer::GetInstance().SendLine(command.str());
+#if PROTOCOL_VERSION > 340 /* > 1.12.2 */
+    MinecraftServer::GetInstance().WaitLine(".*?: Summoned new.*", 5000);
+#else
+    MinecraftServer::GetInstance().WaitLine(".*?: Object successfully summoned.*", 5000);
+#endif
+    std::shared_ptr<Botcraft::NetworkManager> network_manager = bot->GetNetworkManager();
+    std::shared_ptr<Botcraft::EntityManager> entity_manager = bot->GetEntityManager();
+    std::shared_ptr<Botcraft::Entity> entity;
+    int entity_id = 0;
+    // Wait for the entity to be registered on bot side
+    REQUIRE(Botcraft::Utilities::WaitForCondition([&]() {
+        auto entities = entity_manager->GetEntities();
+        for (const auto& [k, v] : *entities)
+        {
+            if (v->GetPosition().SqrDist(pos) < 0.2)
+            {
+                entity_id = k;
+                entity = v;
+                return true;
+            }
+        }
+        return false;
+    }, 5000));
+    REQUIRE(entity != nullptr);
+    REQUIRE(entity->IsLivingEntity());
+    std::shared_ptr<Botcraft::LivingEntity> living_entity = std::static_pointer_cast<Botcraft::LivingEntity>(entity);
+    const float health = living_entity->GetDataHealthId();
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
+    std::shared_ptr<ProtocolCraft::ServerboundInteractPacket> packet_attack = std::make_shared<ProtocolCraft::ServerboundInteractPacket>();
+    packet_attack->SetAction(1);
+    packet_attack->SetEntityId(entity_id);
+#if PROTOCOL_VERSION > 722 /* > 1.15.2 */
+    packet_attack->SetUsingSecondaryAction(false);
+#endif
+#else
+    std::shared_ptr<ProtocolCraft::ServerboundAttackPacket> packet_attack = std::make_shared<ProtocolCraft::ServerboundAttackPacket>();
+    packet_attack->SetEntityId(entity_id);
+#endif
+
+    network_manager->Send(packet_attack);
+
+    REQUIRE(Botcraft::Utilities::WaitForCondition([&]() { return living_entity->GetDataHealthId() < health; }, 5000));
+}
