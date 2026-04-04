@@ -49,31 +49,31 @@ jobs:
     needs:
       - build_os_matrix
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           # Fetch depth 0 to get all tags and commits to generate release note changelog
           fetch-depth: 0
 
       - name: Download Windows artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: botcraft-Windows
           path: windows
 
       - name: Download Linux artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: botcraft-Linux
           path: linux
 
       - name: Download doc artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: botcraft-doc
           path: doc
 
       - name: Download version artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: MC-version
           path: version
@@ -135,13 +135,13 @@ jobs:
 
     steps:
       - name: Download doc artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: botcraft-doc
           path: doc
 
       - name: Download version artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: MC-version
           path: version
@@ -154,11 +154,11 @@ jobs:
         run: mv doc/$(cat version/version.txt) doc/doc
 
       - name: Upload raw doc files for pages
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: doc/doc
 
       - name: Deploy to GitHub Pages
         id: deployment
-        # Will automatically fetch the artifact "github-pages" uploaded using actions/upload-pages-artifact@v3
-        uses: actions/deploy-pages@v4
+        # Will automatically fetch the artifact "github-pages" uploaded using actions/upload-pages-artifact
+        uses: actions/deploy-pages@v5
