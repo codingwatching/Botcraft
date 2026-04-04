@@ -10,6 +10,9 @@ namespace Botcraft
         "is_lying",
         "relax_state_one",
         "data_collar_color",
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        "data_sound_variant_id",
+#endif
     } };
 
     CatEntity::CatEntity()
@@ -19,6 +22,9 @@ namespace Botcraft
         SetIsLying(false);
         SetRelaxStateOne(false);
         SetDataCollarColor(14);
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        SetDataSoundVariantId(0);
+#endif
 
         // Initialize all attributes with default values
         attributes.insert({ EntityAttribute::Type::MaxHealth, EntityAttribute(EntityAttribute::Type::MaxHealth, 10.0) });
@@ -62,6 +68,9 @@ namespace Botcraft
         output["metadata"]["is_lying"] = GetIsLying();
         output["metadata"]["relax_state_one"] = GetRelaxStateOne();
         output["metadata"]["data_collar_color"] = GetDataCollarColor();
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        output["metadata"]["data_sound_variant_id"] = GetDataSoundVariantId();
+#endif
 
         output["attributes"]["attack_damage"] = GetAttributeAttackDamageValue();
 
@@ -107,6 +116,14 @@ namespace Botcraft
         return std::any_cast<int>(metadata.at("data_collar_color"));
     }
 
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    int CatEntity::GetDataSoundVariantId() const
+    {
+        std::shared_lock<std::shared_mutex> lock(entity_mutex);
+        return std::any_cast<int>(metadata.at("data_sound_variant_id"));
+    }
+#endif
+
 
     void CatEntity::SetDataTypeId(const int data_type_id)
     {
@@ -131,6 +148,14 @@ namespace Botcraft
         std::scoped_lock<std::shared_mutex> lock(entity_mutex);
         metadata["data_collar_color"] = data_collar_color;
     }
+
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    void CatEntity::SetDataSoundVariantId(const int data_sound_variant_id)
+    {
+        std::scoped_lock<std::shared_mutex> lock(entity_mutex);
+        metadata["data_sound_variant_id"] = data_sound_variant_id;
+    }
+#endif
 
 
     double CatEntity::GetAttributeAttackDamageValue() const

@@ -19,7 +19,11 @@ namespace Botcraft
         static constexpr int metadata_count = 0;
         static constexpr int hierarchy_metadata_count = AnimalEntity::metadata_count + AnimalEntity::hierarchy_metadata_count;
 #else
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
         static constexpr int metadata_count = 1;
+#else
+        static constexpr int metadata_count = 2;
+#endif
         static const std::array<std::string, metadata_count> metadata_names;
         static constexpr int hierarchy_metadata_count = AbstractCowEntity::metadata_count + AbstractCowEntity::hierarchy_metadata_count;
 #endif
@@ -43,8 +47,14 @@ namespace Botcraft
         virtual void SetMetadataValue(const int index, const std::any& value) override;
 
         int GetDataVariantId() const;
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+#endif
+        int GetDataSoundVariantId() const;
 
         void SetDataVariantId(const int data_variant_id);
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        void SetDataSoundVariantId(const int data_suond_variant_id);
+#endif
 #endif
 
     protected:

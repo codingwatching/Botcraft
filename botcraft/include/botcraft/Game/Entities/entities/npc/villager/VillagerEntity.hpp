@@ -18,7 +18,11 @@ namespace Botcraft
 #endif
     {
     protected:
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
         static constexpr int metadata_count = 1;
+#else
+        static constexpr int metadata_count = 2;
+#endif
         static const std::array<std::string, metadata_count> metadata_names;
 #if PROTOCOL_VERSION > 477 /* > 1.14 */
         static constexpr int hierarchy_metadata_count = AbstractVillagerEntity::metadata_count + AbstractVillagerEntity::hierarchy_metadata_count;
@@ -46,12 +50,21 @@ namespace Botcraft
 
 #if PROTOCOL_VERSION > 404 /* > 1.13.2 */
         VillagerData GetDataVillagerData() const;
-
-        void SetDataVillagerData(const VillagerData& data_villager_data);
 #else
         int GetDataVillagerProfessionId() const;
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        bool GetDataVillagerDataFinalized() const;
+#endif
 
+
+#if PROTOCOL_VERSION > 404 /* > 1.13.2 */
+        void SetDataVillagerData(const VillagerData& data_villager_data);
+#else
         void SetDataVillagerProfessionId(const int data_villager_profession_id);
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        void SetDataVillagerDataFinalized(const bool data_villager_data_finalized);
 #endif
 
     protected:

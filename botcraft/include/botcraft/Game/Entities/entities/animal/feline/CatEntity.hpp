@@ -8,7 +8,11 @@ namespace Botcraft
     class CatEntity : public TamableAnimalEntity
     {
     protected:
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
         static constexpr int metadata_count = 4;
+#else
+        static constexpr int metadata_count = 5;
+#endif
         static const std::array<std::string, metadata_count> metadata_names;
         static constexpr int hierarchy_metadata_count = TamableAnimalEntity::metadata_count + TamableAnimalEntity::hierarchy_metadata_count;
 
@@ -34,11 +38,17 @@ namespace Botcraft
         bool GetIsLying() const;
         bool GetRelaxStateOne() const;
         int GetDataCollarColor() const;
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        int GetDataSoundVariantId() const;
+#endif
 
         void SetDataTypeId(const int data_type_id);
         void SetIsLying(const bool is_lying);
         void SetRelaxStateOne(const bool relax_state_one);
         void SetDataCollarColor(const int data_collar_color);
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        void SetDataSoundVariantId(const int data_sound_variant_id);
+#endif
 
         // Attribute stuff
         double GetAttributeAttackDamageValue() const;

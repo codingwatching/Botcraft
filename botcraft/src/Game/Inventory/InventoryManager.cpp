@@ -264,11 +264,19 @@ namespace Botcraft
         if ((window->GetType() == InventoryType::PlayerInventory || window->GetType() == InventoryType::Crafting) &&
             transaction->GetSlotNum() == 0)
         {
+#if PROTOCOL_VERSION < 775 /* 26.1 */
             if (transaction->GetClickType() != 0 && transaction->GetClickType() != 1)
             {
                 LOG_ERROR("Transaction type '" << transaction->GetClickType() << "' not implemented.");
                 throw std::runtime_error("Non supported transaction type created");
             }
+#else
+            if (transaction->GetContainerInput() != 0 && transaction->GetContainerInput() != 1)
+            {
+                LOG_ERROR("Transaction type '" << transaction->GetContainerInput() << "' not implemented.");
+                throw std::runtime_error("Non supported transaction type created");
+            }
+#endif
 
             if (transaction->GetButtonNum() != 0 && transaction->GetButtonNum() != 1)
             {
@@ -303,7 +311,11 @@ namespace Botcraft
         // Drop item
         else if (transaction->GetSlotNum() == -999)
         {
+#if PROTOCOL_VERSION < 775 /* 26.1 */
             switch (transaction->GetClickType())
+#else
+            switch (transaction->GetContainerInput())
+#endif
             {
                 case 0:
                 {
@@ -329,7 +341,11 @@ namespace Botcraft
                 }
                 default:
                 {
+#if PROTOCOL_VERSION < 775 /* 26.1 */
                     LOG_ERROR("Transaction type '" << transaction->GetClickType() << "' not implemented.");
+#else
+                    LOG_ERROR("Transaction type '" << transaction->GetContainerInput() << "' not implemented.");
+#endif
                     throw std::runtime_error("Non supported transaction type created");
                     break;
                 }
@@ -338,7 +354,11 @@ namespace Botcraft
         // Normal case
         else
         {
+#if PROTOCOL_VERSION < 775 /* 26.1 */
             switch (transaction->GetClickType())
+#else
+            switch (transaction->GetContainerInput())
+#endif
             {
                 case 0:
                 {
@@ -419,7 +439,11 @@ namespace Botcraft
                 }
                 default:
                 {
+#if PROTOCOL_VERSION < 775 /* 26.1 */
                     LOG_ERROR("Transaction type '" << transaction->GetClickType() << "' not implemented.");
+#else
+                    LOG_ERROR("Transaction type '" << transaction->GetContainerInput() << "' not implemented.");
+#endif
                     throw std::runtime_error("Non supported transaction type created");
                     break;
                 }

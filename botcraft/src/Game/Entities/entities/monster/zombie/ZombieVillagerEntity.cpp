@@ -9,7 +9,10 @@ namespace Botcraft
 #if PROTOCOL_VERSION > 404 /* > 1.13.2 */
         "data_villager_data",
 #else
-        "data_villager_profession_id"
+        "data_villager_profession_id",
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        "data_villager_data_finalized",
 #endif
     } };
 
@@ -21,6 +24,9 @@ namespace Botcraft
         SetDataVillagerData(VillagerData{ 2, 0, 1 }); // TODO: from 1.21.9 it's a random profession and a type depending on the biome, but we don't really care on the clientside I guess
 #else
         SetDataVillagerProfessionId(0);
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        SetDataVillagerDataFinalized(false);
 #endif
     }
 
@@ -62,6 +68,9 @@ namespace Botcraft
 #else
         output["metadata"]["data_villager_profession_id"] = GetDataVillagerProfessionId();
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        output["metadata"]["data_villager_data_finalized"] = GetDataVillagerDataFinalized();
+#endif
 
         return output;
     }
@@ -100,6 +109,14 @@ namespace Botcraft
     }
 #endif
 
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    bool ZombieVillagerEntity::GetDataVillagerDataFinalized() const
+    {
+        std::shared_lock<std::shared_mutex> lock(entity_mutex);
+        return std::any_cast<bool>(metadata.at("data_villager_data_finalized"));
+    }
+#endif
+
 
     void ZombieVillagerEntity::SetDataConvertingId(const bool data_converting_id)
     {
@@ -118,6 +135,14 @@ namespace Botcraft
     {
         std::scoped_lock<std::shared_mutex> lock(entity_mutex);
         metadata["data_villager_profession_id"] = data_villager_profession_id;
+    }
+#endif
+
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    void ZombieVillagerEntity::SetDataVillagerDataFinalized(const bool data_villager_data_finalized)
+    {
+        std::scoped_lock<std::shared_mutex> lock(entity_mutex);
+        metadata["data_villager_data_finalized"] = data_villager_data_finalized;
     }
 #endif
 

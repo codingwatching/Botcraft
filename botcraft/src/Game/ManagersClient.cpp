@@ -267,7 +267,31 @@ namespace Botcraft
     void ManagersClient::Handle(ClientboundSetTimePacket& packet)
     {
         // abs because the server multiplies by -1 to indicate fixed daytime for versions < 1.21.2
+#if PROTOCOL_VERSION < 775 /* 26.1 */
         day_time = std::abs(packet.GetDayTime()) % 24000;
+#else
+        // Per dimension updates
+        // TODO: match the dimension to ids using registry?
+        if (world != nullptr)
+        {
+            if (world->GetCurrentDimension() == "minecraft:overworld")
+            {
+                auto it = packet.GetClockUpdates().find(0);
+                if (it != packet.GetClockUpdates().end())
+                {
+                    day_time = it->second.GetTotalTicks() % 24000;
+                }
+            }
+            else if (world->GetCurrentDimension() == "minecraft:the_end")
+            {
+                auto it = packet.GetClockUpdates().find(1);
+                if (it != packet.GetClockUpdates().end())
+                {
+                    day_time = it->second.GetTotalTicks() % 24000;
+                }
+            }
+        }
+#endif
     }
 
 #if PROTOCOL_VERSION < 761 /* < 1.19.3 */

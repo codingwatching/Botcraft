@@ -428,8 +428,14 @@ namespace Botcraft
 #if PROTOCOL_VERSION > 758 /* > 1.18.2 */
                 CatVariant,
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+                CatSoundVariant,
+#endif
 #if PROTOCOL_VERSION > 769 /* > 1.21.4 */
                 CowVariant,
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+                CowSoundVariant,
 #endif
 #if PROTOCOL_VERSION > 765 /* > 1.20.4 */
                 WolfVariant,
@@ -442,7 +448,15 @@ namespace Botcraft
 #endif
 #if PROTOCOL_VERSION > 769 /* > 1.21.4 */
                 PigVariant,
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+                PigSoundVariant,
+#endif
+#if PROTOCOL_VERSION > 769 /* > 1.21.4 */
                 ChickenVariant,
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+                ChickenSoundVariant,
 #endif
 #if PROTOCOL_VERSION > 773 /* > 1.21.10 */
                 ZombieNautilusVariant,
@@ -621,8 +635,18 @@ namespace Botcraft
                 value = static_cast<int>(ProtocolCraft::ReadData<ProtocolCraft::VarInt>(iter, length));
                 break;
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            case EntityMetadataTypes::CatSoundVariant:
+                value = static_cast<int>(ProtocolCraft::ReadData<ProtocolCraft::VarInt>(iter, length));
+                break;
+#endif
 #if PROTOCOL_VERSION > 769 /* > 1.21.4 */
             case EntityMetadataTypes::CowVariant:
+                value = static_cast<int>(ProtocolCraft::ReadData<ProtocolCraft::VarInt>(iter, length));
+                break;
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            case EntityMetadataTypes::CowSoundVariant:
                 value = static_cast<int>(ProtocolCraft::ReadData<ProtocolCraft::VarInt>(iter, length));
                 break;
 #endif
@@ -645,7 +669,19 @@ namespace Botcraft
             case EntityMetadataTypes::PigVariant:
                 value = static_cast<int>(ProtocolCraft::ReadData<ProtocolCraft::VarInt>(iter, length));
                 break;
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            case EntityMetadataTypes::PigSoundVariant:
+                value = static_cast<int>(ProtocolCraft::ReadData<ProtocolCraft::VarInt>(iter, length));
+                break;
+#endif
+#if PROTOCOL_VERSION > 769 /* > 1.21.4 */
             case EntityMetadataTypes::ChickenVariant:
+                value = static_cast<int>(ProtocolCraft::ReadData<ProtocolCraft::VarInt>(iter, length));
+                break;
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            case EntityMetadataTypes::ChickenSoundVariant:
                 value = static_cast<int>(ProtocolCraft::ReadData<ProtocolCraft::VarInt>(iter, length));
                 break;
 #endif

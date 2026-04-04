@@ -9,6 +9,9 @@ namespace Botcraft
 #if PROTOCOL_VERSION > 769 /* > 1.21.4 */
     const std::array<std::string, CowEntity::metadata_count> CowEntity::metadata_names{ {
             "data_variant_id",
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            "data_sound_variant_id",
+#endif
     } };
 #endif
 
@@ -18,8 +21,12 @@ namespace Botcraft
         // Initialize all attributes with default values
         attributes.insert({ EntityAttribute::Type::MaxHealth, EntityAttribute(EntityAttribute::Type::MaxHealth, 10.0) });
         attributes.insert({ EntityAttribute::Type::MovementSpeed, EntityAttribute(EntityAttribute::Type::MovementSpeed, 0.2) });
-#else
+#endif
+#if PROTOCOL_VERSION > 769 /* > 1.21.4 */
         SetDataVariantId(0);
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        SetDataSoundVariantId(0);
 #endif
     }
 
@@ -55,6 +62,9 @@ namespace Botcraft
     {
         ProtocolCraft::Json::Value output = AbstractCowEntity::Serialize();
         output["metadata"]["data_variant_id"] = GetDataVariantId();
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        output["metadata"]["data_sound_variant_id"] = GetDataSoundVariantId();
+#endif
 
         return output;
     }
@@ -78,6 +88,13 @@ namespace Botcraft
         std::shared_lock<std::shared_mutex> lock(entity_mutex);
         return std::any_cast<int>(metadata.at("data_variant_id"));
     }
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    int CowEntity::GetDataSoundVariantId() const
+    {
+        std::shared_lock<std::shared_mutex> lock(entity_mutex);
+        return std::any_cast<int>(metadata.at("data_sound_variant_id"));
+    }
+#endif
 
 
     void CowEntity::SetDataVariantId(const int data_variant_id)
@@ -85,6 +102,13 @@ namespace Botcraft
         std::scoped_lock<std::shared_mutex> lock(entity_mutex);
         metadata["data_variant_id"] = data_variant_id;
     }
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    void CowEntity::SetDataSoundVariantId(const int data_sound_variant_id)
+    {
+        std::scoped_lock<std::shared_mutex> lock(entity_mutex);
+        metadata["data_sound_variant_id"] = data_sound_variant_id;
+    }
+#endif
 #endif
 
 

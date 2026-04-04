@@ -326,6 +326,9 @@ namespace Botcraft
         for (int sectionY = 0; sectionY < height / SECTION_HEIGHT; ++sectionY)
         {
             short block_count = ReadData<short>(iter, length);
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+            short fluid_count = ReadData<short>(iter, length);
+#endif
 
             // Paletted block states
             unsigned char bits_per_block = ReadData<unsigned char>(iter, length);

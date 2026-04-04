@@ -40,7 +40,9 @@ namespace Botcraft
         attributes.insert({ EntityAttribute::Type::Luck, EntityAttribute(EntityAttribute::Type::Luck, 0.0) });
 #if PROTOCOL_VERSION > 765 /* > 1.20.4 */
         attributes.insert({ EntityAttribute::Type::PlayerBlockInteractionRange, EntityAttribute(EntityAttribute::Type::PlayerBlockInteractionRange, 4.5) });
-        attributes.insert({ EntityAttribute::Type::PlayerEntityInteractionRange, EntityAttribute(EntityAttribute::Type::PlayerEntityInteractionRange, 3.0) });
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
+        attributes.insert({ EntityAttribute::Type::EntityInteractionRange, EntityAttribute(EntityAttribute::Type::EntityInteractionRange, 3.0) });
+#endif
         attributes.insert({ EntityAttribute::Type::PlayerBlockBreakSpeed, EntityAttribute(EntityAttribute::Type::PlayerBlockBreakSpeed, 1.0) });
 #endif
 #if PROTOCOL_VERSION > 766 /* > 1.20.6 */
@@ -148,7 +150,9 @@ namespace Botcraft
         output["attributes"]["luck"] = GetAttributeLuckValue();
 #if PROTOCOL_VERSION > 765 /* > 1.20.4 */
         output["attributes"]["block_interaction_range"] = GetAttributePlayerBlockInteractionRangeValue();
-        output["attributes"]["entity_interaction_range"] = GetAttributePlayerEntityInteractionRangeValue();
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
+        output["attributes"]["entity_interaction_range"] = GetAttributeEntityInteractionRangeValue();
+#endif
         output["attributes"]["block_break_speed"] = GetAttributePlayerBlockBreakSpeedValue();
 #endif
 #if PROTOCOL_VERSION > 766 /* > 1.20.6 */
@@ -314,11 +318,13 @@ namespace Botcraft
         return attributes.at(EntityAttribute::Type::PlayerBlockInteractionRange).GetValue();
     }
 
-    double PlayerEntity::GetAttributePlayerEntityInteractionRangeValue() const
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
+    double PlayerEntity::GetAttributeEntityInteractionRangeValue() const
     {
         std::shared_lock<std::shared_mutex> lock(entity_mutex);
-        return attributes.at(EntityAttribute::Type::PlayerEntityInteractionRange).GetValue();
+        return attributes.at(EntityAttribute::Type::EntityInteractionRange).GetValue();
     }
+#endif
 
     double PlayerEntity::GetAttributePlayerBlockBreakSpeedValue() const
     {

@@ -10,7 +10,11 @@ namespace Botcraft
     class ZombieVillagerEntity : public ZombieEntity
     {
     protected:
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
         static constexpr int metadata_count = 2;
+#else
+        static constexpr int metadata_count = 3;
+#endif
         static const std::array<std::string, metadata_count> metadata_names;
         static constexpr int hierarchy_metadata_count = ZombieEntity::metadata_count + ZombieEntity::hierarchy_metadata_count;
 
@@ -38,12 +42,18 @@ namespace Botcraft
 #else
         int GetDataVillagerProfessionId() const;
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        bool GetDataVillagerDataFinalized() const;
+#endif
 
         void SetDataConvertingId(const bool data_converting_id);
 #if PROTOCOL_VERSION > 404 /* > 1.13.2 */
         void SetDataVillagerData(const VillagerData& data_villager_data);
 #else
         void SetDataVillagerProfessionId(const int data_villager_profession_id);
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        void SetDataVillagerDataFinalized(const bool data_villager_data_finalized);
 #endif
 
     protected:

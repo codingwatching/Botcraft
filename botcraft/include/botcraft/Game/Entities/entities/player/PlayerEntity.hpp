@@ -88,7 +88,9 @@ namespace Botcraft
         double GetAttributeLuckValue() const;
 #if PROTOCOL_VERSION > 765 /* > 1.20.4 */
         double GetAttributePlayerBlockInteractionRangeValue() const;
-        double GetAttributePlayerEntityInteractionRangeValue() const;
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
+        double GetAttributeEntityInteractionRangeValue() const;
+#endif
         double GetAttributePlayerBlockBreakSpeedValue() const;
 #endif
 #if PROTOCOL_VERSION > 766 /* > 1.20.6 */

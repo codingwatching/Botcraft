@@ -6,12 +6,18 @@ namespace Botcraft
 {
     const std::array<std::string, AgeableMobEntity::metadata_count> AgeableMobEntity::metadata_names{ {
         "data_baby_id",
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        "age_locked",
+#endif
     } };
 
     AgeableMobEntity::AgeableMobEntity()
     {
         // Initialize all metadata with default values
         SetDataBabyId(false);
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        SetAgeLocked(false);
+#endif
     }
 
     AgeableMobEntity::~AgeableMobEntity()
@@ -30,6 +36,9 @@ namespace Botcraft
         ProtocolCraft::Json::Value output = PathfinderMobEntity::Serialize();
 
         output["metadata"]["data_baby_id"] = GetDataBabyId();
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        output["metadata"]["age_locked"] = GetAgeLocked();
+#endif
 
         return output;
     }
@@ -54,11 +63,27 @@ namespace Botcraft
         return std::any_cast<bool>(metadata.at("data_baby_id"));
     }
 
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    bool AgeableMobEntity::GetAgeLocked() const
+    {
+        std::shared_lock<std::shared_mutex> lock(entity_mutex);
+        return std::any_cast<bool>(metadata.at("age_locked"));
+    }
+#endif
+
 
     void AgeableMobEntity::SetDataBabyId(const bool data_baby_id)
     {
         std::scoped_lock<std::shared_mutex> lock(entity_mutex);
         metadata["data_baby_id"] = data_baby_id;
     }
+
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    void AgeableMobEntity::SetAgeLocked(const bool age_locked)
+    {
+        std::scoped_lock<std::shared_mutex> lock(entity_mutex);
+        metadata["age_locked"] = age_locked;
+    }
+#endif
 
 }

@@ -355,7 +355,7 @@ namespace Botcraft
         case Type::PlayerBlockInteractionRange:
             current_value = std::clamp(current_value, 0.0, 64.0);
             break;
-        case Type::PlayerEntityInteractionRange:
+        case Type::EntityInteractionRange:
             current_value = std::clamp(current_value, 0.0, 64.0);
             break;
         case Type::FallDamageMultiplier:

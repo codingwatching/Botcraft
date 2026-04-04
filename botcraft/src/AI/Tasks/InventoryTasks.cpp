@@ -27,7 +27,11 @@ namespace Botcraft
         click_window_packet->SetContainerId(static_cast<unsigned char>(container_id));
         click_window_packet->SetSlotNum(slot_id);
         click_window_packet->SetButtonNum(button_num);
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
         click_window_packet->SetClickType(click_type);
+#else
+        click_window_packet->SetContainerInput(click_type);
+#endif
 
         // ItemStack/CarriedItem, StateId and ChangedSlots will be set in SendInventoryTransaction
         int transaction_id = client.SendInventoryTransaction(click_window_packet);

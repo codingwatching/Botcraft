@@ -1,11 +1,12 @@
 #include "botcraft/Game/Model.hpp"
-#include "botcraft/Utilities/StringUtilities.hpp"
 #include "botcraft/Utilities/Logger.hpp"
+#include "botcraft/Utilities/StringUtilities.hpp"
 
 #include "protocolCraft/Utilities/Json.hpp"
 
-#include <sstream>
 #include <fstream>
+#include <sstream>
+#include <stdexcept>
 
 using namespace ProtocolCraft;
 
@@ -138,7 +139,23 @@ namespace Botcraft
             {
 #if PROTOCOL_VERSION > 578 /* > 1.15.2 */
                 // Remove leading minecraft: from the path of the textures
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
                 std::string texture_name = val.get_string();
+#else
+                std::string texture_name;
+                if (val.is_string())
+                {
+                    texture_name = val.get_string();
+                }
+                else if (val.is_object() && val.contains("sprite"))
+                {
+                    texture_name = val["sprite"].get_string();
+                }
+                else
+                {
+                    throw std::runtime_error("Unknown block definition json format for " + filepath);
+                }
+#endif
                 if (Utilities::StartsWith(texture_name, "minecraft:"))
                 {
                      texture_name = texture_name.substr(10);
@@ -147,9 +164,9 @@ namespace Botcraft
                 const std::string& texture_name = val.get_string();
 #endif
                 textures_variables["#" + key] = texture_name;
-                if (val.get_string().rfind("#", 0) == 0)
+                if (texture_name.rfind("#", 0) == 0)
                 {
-                    textures_variables[val.get_string()] = val.get_string();
+                    textures_variables[texture_name] = texture_name;
                 }
             }
         }

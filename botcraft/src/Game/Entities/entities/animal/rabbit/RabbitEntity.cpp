@@ -100,12 +100,20 @@ namespace Botcraft
 
     double RabbitEntity::GetWidthImpl() const
     {
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
         return 0.4;
+#else
+        return 0.49;
+#endif
     }
 
     double RabbitEntity::GetHeightImpl() const
     {
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
         return 0.5;
+#else
+        return 0.6;
+#endif
     }
 
 }

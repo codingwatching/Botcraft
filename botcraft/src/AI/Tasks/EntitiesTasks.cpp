@@ -34,7 +34,7 @@ namespace Botcraft
 #if PROTOCOL_VERSION < 766 /* < 1.20.5 */
         constexpr double range = 3.0;
 #else
-        const double range = local_player->GetAttributePlayerEntityInteractionRangeValue();
+        const double range = local_player->GetAttributeEntityInteractionRangeValue();
 #endif
 
         while (position.SqrDist(entity_position) > range * range)
@@ -53,7 +53,9 @@ namespace Botcraft
         std::shared_ptr<NetworkManager> network_manager = client.GetNetworkManager();
         std::shared_ptr<ServerboundInteractPacket> packet_interact = std::make_shared<ServerboundInteractPacket>();
         packet_interact->SetEntityId(entity_id);
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
         packet_interact->SetAction(0);
+#endif
         packet_interact->SetHand(static_cast<int>(hand));
 #if PROTOCOL_VERSION > 722 /* > 1.15.2 */
         packet_interact->SetUsingSecondaryAction(false);

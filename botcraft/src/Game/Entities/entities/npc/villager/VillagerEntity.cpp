@@ -10,6 +10,9 @@ namespace Botcraft
 #else
         "data_villager_profession_id",
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        "data_villager_data_finalized",
+#endif
     } };
 
     VillagerEntity::VillagerEntity()
@@ -19,6 +22,9 @@ namespace Botcraft
         SetDataVillagerData(VillagerData{ 2, 0, 1 });
 #else
         SetDataVillagerProfessionId(0);
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        SetDataVillagerDataFinalized(false);
 #endif
 
         // Initialize all attributes with default values
@@ -69,6 +75,9 @@ namespace Botcraft
 #else
         output["metadata"]["data_villager_profession_id"] = std::any_cast<int>(GetDataVillagerProfessionId());
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        output["metadata"]["data_villager_data_finalized"] = GetDataVillagerDataFinalized();
+#endif
 
         return output;
     }
@@ -97,25 +106,42 @@ namespace Botcraft
         std::shared_lock<std::shared_mutex> lock(entity_mutex);
         return std::any_cast<VillagerData>(metadata.at("data_villager_data"));
     }
-
-
-    void VillagerEntity::SetDataVillagerData(const VillagerData& data_villager_data)
-    {
-        std::scoped_lock<std::shared_mutex> lock(entity_mutex);
-        metadata["data_villager_data"] = data_villager_data;
-    }
 #else
     int VillagerEntity::GetDataVillagerProfessionId() const
     {
         std::shared_lock<std::shared_mutex> lock(entity_mutex);
         return std::any_cast<int>(metadata.at("data_villager_profession_id"));
     }
+#endif
+
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    bool VillagerEntity::GetDataVillagerDataFinalized() const
+    {
+        std::shared_lock<std::shared_mutex> lock(entity_mutex);
+        return std::any_cast<bool>(metadata.at("data_villager_data_finalized"));
+    }
+#endif
 
 
+#if PROTOCOL_VERSION > 404 /* > 1.13.2 */
+    void VillagerEntity::SetDataVillagerData(const VillagerData& data_villager_data)
+    {
+        std::scoped_lock<std::shared_mutex> lock(entity_mutex);
+        metadata["data_villager_data"] = data_villager_data;
+    }
+#else
     void VillagerEntity::SetDataVillagerProfessionId(const int data_villager_profession_id)
     {
         std::scoped_lock<std::shared_mutex> lock(entity_mutex);
         metadata["data_villager_profession_id"] = data_villager_profession_id;
+    }
+#endif
+
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    void VillagerEntity::SetDataVillagerDataFinalized(const bool data_villager_data_finalized)
+    {
+        std::scoped_lock<std::shared_mutex> lock(entity_mutex);
+        metadata["data_villager_data_finalized"] = data_villager_data_finalized;
     }
 #endif
 

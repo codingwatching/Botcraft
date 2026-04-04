@@ -12,6 +12,9 @@ namespace Botcraft
 #if PROTOCOL_VERSION > 769 /* > 1.21.4 */
         "data_variant_id",
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        "data_sound_variant_id",
+#endif
     } };
 
     PigEntity::PigEntity()
@@ -23,6 +26,9 @@ namespace Botcraft
         SetDataBoostTime(0);
 #if PROTOCOL_VERSION > 769 /* > 1.21.4 */
         SetDataVariantId(0);
+#endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        SetDataSoundVariantId(0);
 #endif
 
         // Initialize all attributes with default values
@@ -69,6 +75,9 @@ namespace Botcraft
 #if PROTOCOL_VERSION > 769 /* > 1.21.4 */
         output["metadata"]["data_variant_id"] = GetDataVariantId();
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        output["metadata"]["data_sound_variant_id"] = GetDataSoundVariantId();
+#endif
 
         return output;
     }
@@ -109,6 +118,14 @@ namespace Botcraft
     }
 #endif
 
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    int PigEntity::GetDataSoundVariantId() const
+    {
+        std::shared_lock<std::shared_mutex> lock(entity_mutex);
+        return std::any_cast<int>(metadata.at("data_sound_variant_id"));
+    }
+#endif
+
 
 #if PROTOCOL_VERSION < 770 /* < 1.21.5 */
     void PigEntity::SetDataSaddleId(const bool data_saddle_id)
@@ -129,6 +146,14 @@ namespace Botcraft
     {
         std::scoped_lock<std::shared_mutex> lock(entity_mutex);
         metadata["data_variant_id"] = data_variant_id;
+    }
+#endif
+
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+    void PigEntity::SetDataSoundVariantId(const int data_sound_variant_id)
+    {
+        std::scoped_lock<std::shared_mutex> lock(entity_mutex);
+        metadata["data_sound_variant_id"] = data_sound_variant_id;
     }
 #endif
 

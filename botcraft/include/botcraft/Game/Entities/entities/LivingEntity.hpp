@@ -106,6 +106,9 @@ namespace Botcraft
         double GetAttributeCameraDistanceValue() const;
         double GetAttributeWaypointTransmitRangeValue() const;
 #endif
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+        double GetAttributeEntityInteractionRangeValue() const;
+#endif
 
 #if PROTOCOL_VERSION < 767 /* < 1.21 */
         // 87f46a96-686f-4796-b035-22e16ee9e038

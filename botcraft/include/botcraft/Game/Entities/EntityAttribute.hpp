@@ -38,7 +38,7 @@ namespace Botcraft
 #endif
             ExplosionKnockbackResistance,
 #endif
-            PlayerEntityInteractionRange,
+            EntityInteractionRange,
             FallDamageMultiplier,
 #endif
             FlyingSpeed,
