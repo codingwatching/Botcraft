@@ -64,7 +64,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version: '25'
 
       - name: Run collection
         continue-on-error: true
@@ -376,7 +376,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '25'
           java-package: jre
 
       - name: Install Linux deps
@@ -441,7 +441,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '25'
           java-package: jre
 
       - name: Install Linux deps
