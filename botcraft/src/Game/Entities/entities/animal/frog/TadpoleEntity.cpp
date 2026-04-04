@@ -1,6 +1,10 @@
 #if PROTOCOL_VERSION > 758 /* > 1.18.2 */
 #include "botcraft/Game/Entities/entities/animal/frog/TadpoleEntity.hpp"
 
+#if PROTOCOL_VERSION > 774 /* > 1.21.11 */
+#include <mutex>
+#endif
+
 namespace Botcraft
 {
 #if PROTOCOL_VERSION > 774 /* > 1.21.11 */
