@@ -66,7 +66,11 @@ TEST_CASE("get day time")
 
     // Sent time set command
     MinecraftServer::GetInstance().SendLine("time set " + std::to_string(day_time));
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
     MinecraftServer::GetInstance().WaitLine(".*: Set the time to " + std::to_string(day_time) + ".*", 5000);
+#else
+    MinecraftServer::GetInstance().WaitLine(".*: Set .* to " + std::to_string(day_time) + ".*", 5000);
+#endif
 
     Botcraft::Utilities::WaitForCondition([&]()
     {
@@ -76,5 +80,9 @@ TEST_CASE("get day time")
 
     // Reset the time to day
     MinecraftServer::GetInstance().SendLine("time set day");
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
     MinecraftServer::GetInstance().WaitLine(".*: Set the time to 1000.*", 5000);
+#else
+    MinecraftServer::GetInstance().WaitLine(".*: Set .* to time marker .*day.*", 5000);
+#endif
 }

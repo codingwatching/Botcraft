@@ -37,17 +37,22 @@ Status HitCloseHostiles(BehaviourClient& c)
 
                 local_player->LookAt(entity->GetPosition());
 
-                std::shared_ptr<ServerboundInteractPacket> msg = std::make_shared<ServerboundInteractPacket>();
-                msg->SetAction(1);
-                msg->SetEntityId(id);
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
+                std::shared_ptr<ServerboundInteractPacket> packet_attack = std::make_shared<ServerboundInteractPacket>();
+                packet_attack->SetAction(1);
+                packet_attack->SetEntityId(id);
 #if PROTOCOL_VERSION > 722 /* > 1.15.2 */
-                msg->SetUsingSecondaryAction(false);
+                packet_attack->SetUsingSecondaryAction(false);
 #endif
-                std::shared_ptr<ServerboundSwingPacket> msg_swing = std::make_shared<ServerboundSwingPacket>();
-                msg_swing->SetHand(0);
+#else
+                std::shared_ptr<ServerboundAttackPacket> packet_attack = std::make_shared<ServerboundAttackPacket>();
+                packet_attack->SetEntityId(id);
+#endif
+                std::shared_ptr<ServerboundSwingPacket> packet_swing = std::make_shared<ServerboundSwingPacket>();
+                packet_swing->SetHand(0);
 
-                network_manager->Send(msg);
-                network_manager->Send(msg_swing);
+                network_manager->Send(packet_attack);
+                network_manager->Send(packet_swing);
             }
         }
     }

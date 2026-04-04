@@ -217,6 +217,14 @@ public class ClientPatcher {
 
     // Retrieve the obfuscated names of all classes, fields and methods we need from a mapping file
     private static void obfuscateClasses(String mappings, boolean isMojangMapping) throws IOException {
+        if (mappings.isEmpty()) { // No obfuscation, no need to process fields and methods
+            // System.out.println("No obfuscation, keeping the classes as is");
+            for (var entry_class : classes.entrySet()) {
+                // Mappings keep the class paths with dots, we need the slash version for unobfuscated jar
+                entry_class.getValue().name = entry_class.getValue().name.replace('.', '/');
+            }
+            return;
+        }
         BufferedReader reader = new BufferedReader(new FileReader(mappings));
         String line;
         String currentClass = null;

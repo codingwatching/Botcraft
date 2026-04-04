@@ -17,7 +17,7 @@ MANIFEST_URL = "https://launchermeta.mojang.com/mc/game/version_manifest.json"
 JAVA_RUNTIME_ALL_URL = "https://launchermeta.mojang.com/v1/products/java-runtime/2ec0cc96c44e5a76b9c8b7c39df7210883d12871/all.json"
 OBJECTS_URL = "https://resources.download.minecraft.net"
 ASM_URL = "https://repository.ow2.org/nexus/content/repositories/releases/org/ow2/asm"
-ASM_VERSION = "9.7.1"
+ASM_VERSION = "9.9.1"
 MCP_URL = "https://raw.githubusercontent.com/MinecraftForge/MCPConfig/master/versions/release"
 PLAYER_NAME = "PhysicsBuddy"
 VERBOSE_SERVER = False
@@ -288,8 +288,10 @@ def setup_client(base_folder: str, manifest: dict, patcher: str, java_exe: str) 
     print("\tPatch client...")
     if version < str_to_tuple_version("1.14.4"):
         mapping_file = download_file(f"{MCP_URL}/{manifest['id']}/joined.tsrg", base_folder)
-    else:
+    elif version < str_to_tuple_version("26.1"):
         mapping_file = download_file(manifest["downloads"]["client_mappings"]["url"], base_folder)
+    else:
+        mapping_file = None
     folder = os.path.dirname(client_jar)
     filename = os.path.basename(client_jar)
     download_file(f"{ASM_URL}/asm/{ASM_VERSION}/asm-{ASM_VERSION}.jar", os.path.join(folder, "patcher_libs"))
@@ -300,7 +302,7 @@ def setup_client(base_folder: str, manifest: dict, patcher: str, java_exe: str) 
         os.path.relpath(patcher, folder),
         filename,
         "patched_" + filename,
-        os.path.relpath(mapping_file, folder),
+        os.path.relpath(mapping_file, folder) if mapping_file else "",
         manifest["id"],
     ], cwd=folder, check=True)
     patched_jar = os.path.join(folder, "patched_" + filename)
@@ -570,6 +572,7 @@ def collect_trajectories(server: Server, in_folder: str, out_folder: str, client
                 # Teleport client outside of the test area
                 server.send_command(f"teleport {PLAYER_NAME} 0 2 -5 0 0")
                 server.wait_regex(f".*?Teleported {PLAYER_NAME} to.*", 5)
+                # TODO: Open structure block to extract dimensions, move next trajectory further on X axis to avoid overwriting the previous one
                 # Load structure block
                 set_structure_block_command = "setblock 0 1 0 minecraft:structure_block"
                 if version < str_to_tuple_version("1.13"):

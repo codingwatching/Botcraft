@@ -115,7 +115,11 @@ void MinecraftServer::Initialize()
 
     // Set time to day
     SendLine("time set day");
+#if PROTOCOL_VERSION < 775 /* < 26.1 */
     WaitLine(".*: Set the time to \\d+.*", 5000);
+#else
+    WaitLine(".*: Set .* to time marker.*", 5000);
+#endif
 }
 
 std::string MinecraftServer::WaitLine(const long long int timeout_ms)
@@ -200,10 +204,12 @@ void MinecraftServer::SendLine(const std::string& input)
 
 std::filesystem::path MinecraftServer::GetStructurePath() const
 {
-#if PROTOCOL_VERSION > 340 /* > 1.12.2 */
+#if PROTOCOL_VERSION < 393 /* < 1.13 */
+    return server_path / "world" / "structures";
+#elif PROTOCOL_VERSION < 775 /* < 26.1 */
     return server_path / "world" / "generated" / "minecraft" / "structures";
 #else
-    return server_path / "world" / "structures";
+    return server_path / "world" / "generated" / "minecraft" / "structure";
 #endif
 }
 
@@ -324,10 +330,12 @@ void MinecraftServer::InitServerFolder(const std::filesystem::path& path)
     // Setup structures files
     std::filesystem::copy(
         path / server_relative_files_path / "runtime" / "structures",
-#if PROTOCOL_VERSION > 340 /* > 1.12.2 */
+#if PROTOCOL_VERSION < 393 /* < 1.13 */
+        path / "world" / "structures",
+#elif PROTOCOL_VERSION < 775 /* < 26.1 */
         path / "world" / "generated" / "minecraft" / "structures",
 #else
-        path / "world" / "structures",
+        path / "world" / "generated" / "minecraft" / "structure",
 #endif
         std::filesystem::copy_options::recursive);
 }
