@@ -1,6 +1,7 @@
 #include "TestManager.hpp"
 #include "Utils.hpp"
 
+#include <catch2/catch_test_case_info.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 
@@ -17,28 +18,45 @@ using namespace Botcraft;
 
 void TestPhysicsTrajectory(const std::string& test_name);
 
-// Physics tests requiring tick-precision accuracy are marked as mayfail
-// as they can potentially break because of bad thread timing
-// They also don't run by default, and need the [.physics] tag to
-// be set in the command line
-#define PHYSICS_TEST_CASE(Name) TEST_CASE(Name, "[!mayfail][.physics]") { TestPhysicsTrajectory(Name); } static_assert("forcing ;")
+namespace
+{
+    static const std::filesystem::path base_trajectory_folder_botcraft = std::filesystem::path("test_server_files") / "runtime" / "physics_trajectories" / "botcraft" / game_version;
+    static const std::filesystem::path base_trajectory_folder_vanilla = std::filesystem::path("test_server_files") / "runtime" / "physics_trajectories" / "vanilla" / game_version;
 
-// Would be cool if we could just automatically have one test per file in the folder
-// but I don't think it's possible to register tests at runtime with Catch2 :(
-// So instead we need to manually add each trajectory file here
-PHYSICS_TEST_CASE("block transition");
-PHYSICS_TEST_CASE("collisions");
-PHYSICS_TEST_CASE("elytra");
-PHYSICS_TEST_CASE("fall on");
-PHYSICS_TEST_CASE("jump bump");
-PHYSICS_TEST_CASE("walk on concrete#jump");
-PHYSICS_TEST_CASE("walk on concrete#sneak");
-PHYSICS_TEST_CASE("walk on concrete#sprint");
-PHYSICS_TEST_CASE("walk on concrete");
-PHYSICS_TEST_CASE("walk on ice");
-PHYSICS_TEST_CASE("walk on soul sand");
+    // Static initialization magic to automatically register one physics test per file in the vanilla trajectory folder
+    static struct AutoRegisterPhysicsTests
+    {
+        class PhysicsTrajectoryInvoker : public Catch::ITestInvoker
+        {
+        public:
+            explicit PhysicsTrajectoryInvoker(const std::string& name) : name(name) { }
+            void invoke() const override { TestPhysicsTrajectory(name); }
+        private:
+            std::string name;
+        };
 
-// NON TRAJECTORY TESTS BELOW
+        AutoRegisterPhysicsTests()
+        {
+            for (const std::filesystem::directory_entry& f : std::filesystem::directory_iterator(base_trajectory_folder_vanilla))
+            {
+                if (!f.is_regular_file())
+                {
+                    continue;
+                }
+
+                const std::string test_name = ReplaceCharacters(f.path().stem().string(), {{'_', " "}});
+                Catch::getMutableRegistryHub().registerTest(
+                    Catch::makeTestCaseInfo(
+                        "",
+                        Catch::NameAndTags{ test_name, "[!mayfail][.physics]" },
+                        CATCH_INTERNAL_LINEINFO // all the physics tests will be linked to this line but we don't really care that much
+                    ),
+                    Catch::Detail::make_unique<PhysicsTrajectoryInvoker>(test_name)
+                );
+            }
+        }
+    } physics_tests_register;
+}
 
 #if PROTOCOL_VERSION > 764 /* > 1.20.2 */
 TEST_CASE("tick rate jump")
@@ -194,7 +212,7 @@ void TestPhysicsTrajectory(const std::string& test_name)
 
     const Position& test_offset = TestManager::GetInstance().GetCurrentOffset();
 
-    const std::filesystem::path traj_path = std::filesystem::path("test_server_files") / "runtime" / "physics_trajectories" / "vanilla" / game_version / (ReplaceCharacters(test_name, {{' ', "_"}}) + ".traj");
+    const std::filesystem::path traj_path = base_trajectory_folder_vanilla / (ReplaceCharacters(test_name, {{' ', "_"}}) + ".traj");
     if (!std::filesystem::exists(traj_path))
     {
         SKIP("missing trajectory file");
@@ -236,7 +254,7 @@ void TestPhysicsTrajectory(const std::string& test_name)
         // Process the section lines
         SECTION(section_name)
         {
-            std::ofstream trajectory_file(std::filesystem::path("test_server_files") / "runtime" / "physics_trajectories" / "botcraft" / game_version / (ReplaceCharacters(test_name, { {' ', "_"} }) + ".traj"), std::ios::app);
+            std::ofstream trajectory_file(base_trajectory_folder_botcraft / (ReplaceCharacters(test_name, { {' ', "_"} }) + ".traj"), std::ios::app);
             std::ofstream recap_file(TestManager::GetInstance().GetPhysicsRecapPath(), std::ios::app);
             // Only write min/max test version the first time this test actually runs
             if (current_test != test_name)
