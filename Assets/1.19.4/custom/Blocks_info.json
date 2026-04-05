@@ -11977,7 +11977,6 @@
             "name": "minecraft:cherry_leaves",
             "render": "block",
             "solid": true,
-            "tintType": "leaves",
             "transparent": true,
             "tools": [
                 "any",
