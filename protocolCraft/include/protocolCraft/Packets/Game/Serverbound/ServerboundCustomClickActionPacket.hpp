@@ -6,6 +6,8 @@
 #include "protocolCraft/Types/Identifier.hpp"
 #include "protocolCraft/Types/NBT/NBT.hpp"
 
+#include <optional>
+
 namespace ProtocolCraft
 {
     class ServerboundCustomClickActionPacket : public BasePacket<ServerboundCustomClickActionPacket>
@@ -14,7 +16,7 @@ namespace ProtocolCraft
         static constexpr std::string_view packet_name = "Custom Click Action";
 
         SERIALIZED_FIELD(Id_, Identifier);
-        SERIALIZED_FIELD(Payload, NBT::UnnamedValue);
+        SERIALIZED_FIELD(Payload, std::optional<NBT::UnnamedValue>);
 
         DECLARE_READ_WRITE_SERIALIZE;
     };
