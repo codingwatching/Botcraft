@@ -37,6 +37,10 @@ namespace
 
         AutoRegisterPhysicsTests()
         {
+            if (!std::filesystem::exists(base_trajectory_folder_vanilla))
+            {
+                return;
+            }
             for (const std::filesystem::directory_entry& f : std::filesystem::directory_iterator(base_trajectory_folder_vanilla))
             {
                 if (!f.is_regular_file())
