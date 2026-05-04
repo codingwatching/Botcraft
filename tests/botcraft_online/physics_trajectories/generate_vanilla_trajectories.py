@@ -482,6 +482,7 @@ def setup_client(base_folder: str, manifest: dict, patcher: str, java_exe: str) 
         f.write("toggleCrouch:false\n")
         f.write("toggleSprint:false\n")
         f.write("tutorialStep:none\n")
+        f.write("pauseOnLostFocus:false\n")
 
     # Using any other java sometimes causes crash for some reasons so play safe
     print("\tInstall Minecraft JRE...")
